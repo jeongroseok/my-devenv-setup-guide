@@ -196,7 +196,7 @@ notepad $PROFILE
 그리고 `PowerShell` 프로필 스크립트의 마지막 줄에 다음 스니펫을 추가한다:
 
 ```powershell
-oh-my-posh init pwsh --config ~/OneDrive/Documents/PowerShell/custom.omp.json | Invoke-Expression
+oh-my-posh.exe init pwsh --config ~/OneDrive/Documents/PowerShell/custom.omp.json | Invoke-Expression
 ```
 
 > **참고:** `custom.omp.json` 파일은 `easy-term` 테마를 수정한 것이다.
@@ -218,3 +218,90 @@ New-Item -ItemType SymbolicLink -Path "C:\Users\{username}\OneDrive\Documents\Wi
 위 명령어를 통해 심볼릭 링크를 설정하여, `Developer PowerShell for VS 2022`에서도 `Oh My Posh`를 사용할 수 있다.
 
 ![DeveloperPowerShell](./images/DeveloperPowerShell.png)
+
+## WSL Debian
+
+### Debian에 PowerShell 설치
+
+#### 1. 시스템 업데이트 및 필수 패키지 설치
+
+##### 시스템 패키지 업데이트
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+##### HTTPS를 통한 저장소 사용을 위한 필수 패키지 설치
+
+```bash
+sudo apt install -y wget apt-transport-https software-properties-common lsb-release curl unzip
+```
+
+#### 2. Microsoft 저장소 등록
+
+##### Microsoft 패키지 저장소의 GPG 키 다운로드 및 등록
+
+```bash
+wget -q "https://packages.microsoft.com/config/debian/$(lsb_release -rs)/packages-microsoft-prod.deb"
+```
+
+##### 다운로드한 패키지 설치
+
+```bash
+sudo dpkg -i packages-microsoft-prod.deb
+```
+
+##### 패키지 파일 삭제
+
+```bash
+rm packages-microsoft-prod.deb
+```
+
+#### 3. PowerShell 설치
+
+##### 패키지 목록 업데이트
+
+```bash
+sudo apt update
+```
+
+> Microsoft 저장소가 추가되었으므로, 패키지 목록을 업데이트하여 PowerShell을 설치할 수 있도록 한다.
+
+##### PowerShell 설치
+
+```bash
+sudo apt install -y powershell
+```
+
+#### 4. PowerShell 실행 및 확인
+
+##### PowerShell 실행
+
+```bash
+pwsh
+```
+
+##### PowerShell 버전 확인 (PowerShell 프롬프트에서)
+
+```powershell
+$PSVersionTable
+```
+
+![PowerShellVersion](./images/PowerShellVersion.png)
+
+### Oh My Posh 적용
+
+#### 최신 Oh My Posh 설치
+
+```bash
+curl -s https://ohmyposh.dev/install.sh | bash -s
+```
+
+```powershell
+notepad.exe $PROFILE
+# 나머지는 위와 동일
+```
+
+기본 셸의 변경은 `chsh` 명령어를 통해 변경한다.
+
+![PowerShellDebian](./images/PowerShellDebian.png)

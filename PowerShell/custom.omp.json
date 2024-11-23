@@ -28,7 +28,7 @@
             "windows": "\ue70f"
           },
           "style": "diamond",
-          "template": " {{ if .WSL }}\ue712 on {{ end }}{{ .Icon }} ",
+          "template": " {{ .Icon }} ",
           "type": "os"
         },
         {
